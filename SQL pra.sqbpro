@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="E:/DATASETS/SQL pra.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="3323"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="4" parent="0"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,12:mainCO2_emission"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="CO2_emission" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="184"/><column index="2" value="83"/><column index="3" value="160"/><column index="4" value="230"/><column index="5" value="81"/><column index="6" value="81"/><column index="7" value="81"/><column index="8" value="81"/><column index="9" value="81"/><column index="10" value="81"/><column index="11" value="81"/><column index="12" value="81"/><column index="13" value="81"/><column index="14" value="81"/><column index="15" value="81"/><column index="16" value="81"/><column index="17" value="81"/><column index="18" value="81"/><column index="19" value="81"/><column index="20" value="81"/><column index="21" value="81"/><column index="22" value="81"/><column index="23" value="81"/><column index="24" value="81"/><column index="25" value="81"/><column index="26" value="81"/><column index="27" value="81"/><column index="28" value="81"/><column index="29" value="81"/><column index="30" value="81"/><column index="31" value="81"/><column index="32" value="81"/><column index="33" value="81"/><column index="34" value="81"/><column index="35" value="81"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="EmployeeDemographics" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="83"/><column index="2" value="71"/><column index="3" value="71"/><column index="4" value="40"/><column index="5" value="54"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="EmployeeSalary" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="83"/><column index="2" value="110"/><column index="3" value="49"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="cellphones_data" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort><column index="3" mode="1"/></sort><column_widths><column index="1" value="78"/><column index="2" value="60"/><column index="3" value="129"/><column index="4" value="105"/><column index="5" value="101"/><column index="6" value="43"/><column index="7" value="80"/><column index="8" value="82"/><column index="9" value="84"/><column index="10" value="73"/><column index="11" value="71"/><column index="12" value="51"/><column index="13" value="51"/><column index="14" value="78"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="cellphones_ratings" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort><column index="1" mode="1"/></sort><column_widths><column index="1" value="49"/><column index="2" value="78"/><column index="3" value="43"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="cellphones_users" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="49"/><column index="2" value="43"/><column index="3" value="97"/><column index="4" value="199"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 5">ALTER TABLE [cellphones data] RENAME To cellphones_data ;    
+ALTER TABLE [cellphones users] RENAME To cellphones_users ;    
+ALTER TABLE [cellphones ratings] RENAME To cellphones_ratings ;    
+
+select count(distinct(brand))
+FROM cellphones_data
+
+select brand, count(brand)
+FROM cellphones_data
+group by brand
+
+select brand, avg(RAM), (SELECT avg(RAM) from cellphones_data)
+FROM cellphones_data
+group by brand
+
+select gender, count(gender)
+FROM cellphones_users
+group by gender
+
+SELECT brand, model, internalmemory, RAM, performance, batterysize, price, maincamera, (price/performance) as PriceBenefit
+FROM cellphones_data
+order by PriceBenefit asc
+--- The worst cellphones are Sxperia galaxy z fold and Z flip3
+
+SELECT brand, internalmemory, RAM, performance, batterysize, price, maincamera, (price/performance) as PriceBenefit
+FROM cellphones_data
+GROUP bY brand
+order by PriceBenefit asc
+--- the worst by brand are xperia (sony), moto g(motorla), galaxy a13(samsung)
+--- the best by brand are Iphone, Redmi note11, Pixel6
+
+SELECT brand, model, internalmemory, RAM, performance, batterysize, price, maincamera, (price/performance) as PriceBenefit
+FROM cellphones_data
+GROUP bY model
+order by PriceBenefit asc
+--- the worst by model is Xperia Pro (sony), moto g Stlus(motorla), galaxy Z fold 3(samsung)
+--- the best by model is IphoneXR (apple), tho the performance is really bad, followed by 11T pro(XIAMOI) which is costly but as a FAIR performanc
+--- The performance goes from 1 to 11.
+
+SELECT min(performance)
+FROM cellphones_data
+
+SELECT data.brand, data.model, data.performance, avg(rate.rating) as aveg_rate, data.price,(data.price/data.performance) as PriceBenefit
+FROM cellphones_ratings rate
+Join cellphones_data data
+	on rate.cellphone_id = data.cellphone_id
+GROUP by model
+order by performance desc
+--- Is weird to see that the performance doesn't go hand to hand with rating, it is nromal to see apple phones having a bad Price/beneift but a fair performance and rating
+
+
+SELECT brand, sum(price)
+FROM cellphones_data
+group by brand
+order by 2 asc
+
+SELECT rate.rating,data.cellphone_id, rate.user_id, data.performance, data.brand, data.model, sum(data.price) OVER (partition by data.brand order by data.model) as BrandModelPrice
+FROM cellphones_ratings rate
+Join cellphones_data data
+	on rate.cellphone_id = data.cellphone_id
+	
+
+SELECT *
+FROM cellphones_data
+
+SELECT brand, sum(price)
+FROM cellphones_data
+group by brand
+order by 2 asc
+
+select brand, model, avg(rating) as rating_per_model
+FROM cellphones_ratings rate
+Join cellphones_data data
+	on rate.cellphone_id = data.cellphone_id
+group by model
+order by 1 asc
+-- So seems like the best rated Brand is Apple. Surprisingly the Samsung s22 cell is not well rated.
+
+select brand, avg(rating) as rating_per_brand
+FROM cellphones_ratings rate
+Join cellphones_data data
+	on rate.cellphone_id = data.cellphone_id
+group by brand
+order by 1 asc
+-- The best rated brand is Apple.
+
+SELECT *
+FROM cellphones_data
+
+ALTER TABLE cellphones_data
+add releasedateconverted date;
+
+UPDATE cellphones_data
+set releasedateconverted =  convert(date,releasedate)
+
+select releasedate
+from cellphones_data
+
+select *
+FROM cellphones_ratings rate
+Join cellphones_data data
+	on rate.cellphone_id = data.cellphone_id
+Join cellphones_users users
+	on users.user_id = rate.user_id
+Where gender is NULL
+--- Seems like there aren't null values
+
+
+select brand, model, price, occupation, gender
+FROM cellphones_ratings rate
+Join cellphones_data data
+	on rate.cellphone_id = data.cellphone_id
+Join cellphones_users users
+	on users.user_id = rate.user_id
+where gender = &quot;Male&quot; AND brand = &quot;Asus&quot;
+order by occupation
+--- The occupation has lil to nothing to do with having an apple phone for both M and F
+--- Seems like 4 men and women their fav brand are apple and samsung.
+	
+select distinct brand
+FROM cellphones_data
+-- Well there is a &quot;null&quot; value
+
+select brand, model, price, occupation, gender
+FROM cellphones_ratings rate
+Join cellphones_data data
+	on rate.cellphone_id = data.cellphone_id
+Join cellphones_users users
+	on users.user_id = rate.user_id
+where gender = &quot;Female&quot; AND price &gt; 500
+order by occupation
+-- Seems like more men have cellphones that costs more than 500
+-- Many women that have expnesive phones work on IT or MANAGEMENT
+-- The IT and many other occupations need some data cleaning
+
+
+select brand, model, price, occupation, gender
+FROM cellphones_ratings rate
+Join cellphones_data data
+	on rate.cellphone_id = data.cellphone_id
+Join cellphones_users users
+	on users.user_id = rate.user_id
+where gender = &quot;Male&quot; AND occupation = &quot;Data analyst&quot;
+order by brand
+
+select occupation, avg(price)
+FROM cellphones_ratings rate
+Join cellphones_data data
+	on rate.cellphone_id = data.cellphone_id
+Join cellphones_users users
+	on users.user_id = rate.user_id
+group by occupation
+having avg(price) &gt; 500
+order by avg(price)
+
+select distinct(occupation)
+FROM cellphones_users
+
+UPDATE cellphones_users
+set occupation = LOWER(occupation)
+
+SELECT occupation
+FROM cellphones_users
+
+
+UPDATE cellphones_users
+set occupation =
+ case when occupation = &quot;team worker in it&quot; THEN &quot;information technology&quot;
+		when occupation = &quot;information&quot; THEN &quot;information technology&quot;
+		when occupation = &quot;it&quot; THEN &quot;information technology&quot;
+		when occupation = &quot;president transportation company&quot; THEN &quot;executive manager&quot;
+		else occupation
+		END
+		
+WITH CTE_occupation as (select brand, model, price, occupation, gender,
+avg(price) over (PARTITION by gender) as ttal
+FROM cellphones_ratings rate
+Join cellphones_data data
+	on rate.cellphone_id = data.cellphone_id
+Join cellphones_users users
+	on users.user_id = rate.user_id
+where price &gt; 500)
+
+select brand, model
+FROM CTE_occupation
+
+--- Temptable 
+drop table if exists #temp_occupation
+create table #temp_occupation ( 
+gender varchar(59),
+age int,
+avgprice int
+)
+
+insert into #temp_occupation
+select gender, age, avg(price)
+FROM cellphones_ratings rate
+Join cellphones_data data
+	on rate.cellphone_id = data.cellphone_id
+Join cellphones_users users
+	on users.user_id = rate.user_id
+	
+select * 
+from #temp_occupation
+--- Temptable
+
+select age, gender, replace(gender, &quot;-Select Gender-&quot;,&quot;Genderless&quot;) as fixed
+from cellphones_users
+
+
+
+
+</sql><sql name="SQL 6"></sql><current_tab id="0"/></tab_sql></sqlb_project>
